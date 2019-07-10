@@ -1,4 +1,4 @@
-package com.sample.app.service;
+package com.pdf.text.extractor.service;
 
 import java.io.File;
 import java.util.HashMap;
@@ -14,9 +14,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
-import com.sample.app.config.HeaderRule;
-import com.sample.app.config.HeaderConfig;
-import com.sample.app.config.TargetLine;
+import com.pdf.text.extractor.config.HeaderConfig;
+import com.pdf.text.extractor.config.HeaderRule;
+import com.pdf.text.extractor.config.TargetLine;
 
 public class ExtractHeaderServiceImpl implements ExtractHeaderService {
 

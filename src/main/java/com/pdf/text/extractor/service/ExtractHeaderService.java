@@ -1,10 +1,10 @@
-package com.sample.app.service;
+package com.pdf.text.extractor.service;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import com.sample.app.config.HeaderConfig;
+import com.pdf.text.extractor.config.HeaderConfig;
 
 public interface ExtractHeaderService {
 

@@ -1,4 +1,4 @@
-package com.sample.app.config;
+package com.pdf.text.extractor.config;
 
 import java.util.List;
 import java.util.Map;

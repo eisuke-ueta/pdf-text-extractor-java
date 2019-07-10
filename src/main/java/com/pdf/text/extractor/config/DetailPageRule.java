@@ -1,4 +1,4 @@
-package com.sample.app.config;
+package com.pdf.text.extractor.config;
 
 import java.util.List;
 
@@ -8,13 +8,13 @@ import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
-public class DetailPage {
+public class DetailPageRule {
 
-	private int number;
+	private int page;
 	private int startLine;
 	private int endLine;
 
 	@NonNull
-	private List<DetailItem> items;
+	private List<DetailRule> rules;
 
 }

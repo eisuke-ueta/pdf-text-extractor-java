@@ -1,6 +1,5 @@
-package com.sample.app.config;
+package com.pdf.text.extractor.config;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -9,14 +8,12 @@ import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
-public class DetailConfig {
-
+public class HeaderConfig {
+	
 	private int startPage = 1;
-	private int endPage;
 	private boolean sortByPosition = true;
+	private boolean debug = false;
 
 	@NonNull
-	private DetailPage defaultPage;
-	private List<DetailPage> pages = new ArrayList<>();
-
+	private List<HeaderRule> rules;
 }

@@ -1,16 +1,16 @@
-package com.sample.app;
+package com.pdf.text.extractor.app;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sample.app.config.ExtractConfig;
-import com.sample.app.config.ExtractResult;
-import com.sample.app.service.ExtractHeaderService;
-import com.sample.app.service.ExtractHeaderServiceImpl;
-import com.sample.app.service.ExtractLayoutService;
-import com.sample.app.service.ExtractLayoutServiceImpl;
+import com.pdf.text.extractor.config.ExtractConfig;
+import com.pdf.text.extractor.config.ExtractResult;
+import com.pdf.text.extractor.service.ExtractDetailService;
+import com.pdf.text.extractor.service.ExtractDetailServiceImpl;
+import com.pdf.text.extractor.service.ExtractHeaderService;
+import com.pdf.text.extractor.service.ExtractHeaderServiceImpl;
 
 /**
  * Hello world!
@@ -34,8 +34,8 @@ public class App {
 		final Map<String, String> headerItems = extractHeaderService.execute(config.getHeaderConfig(), file);
 
 		// Extract detail items
-		ExtractLayoutService extractLayoutService = new ExtractLayoutServiceImpl();
-		final List<Map<String, String>> detailItems = extractLayoutService.execute(config, file);
+		ExtractDetailService extractDetailService = new ExtractDetailServiceImpl();
+		final List<Map<String, String>> detailItems = extractDetailService.execute(config.getDetailConfig(), file);
 
 		// Build result
 		final ExtractResult result = new ExtractResult();
@@ -44,7 +44,16 @@ public class App {
 
 		// Output result
 		for (Map.Entry<String, String> entry : result.getHeaderItems().entrySet()) {
-			System.out.println("Key:" + entry.getKey() + ", Value:" + entry.getValue());
+			System.out.println(entry.getKey() + ": " + entry.getValue());
+		}
+
+		for (Map<String, String> details : result.getDetailItems()) {
+			System.out.print(details.get("detail_no") + ", ");
+			System.out.print(details.get("detail_name_1") + ", ");
+			System.out.print(details.get("detail_name_2") + ", ");
+			System.out.print(details.get("detail_spec_1") + ", ");
+			System.out.print(details.get("detail_spec_2"));
+			System.out.println("");
 		}
 
 	}

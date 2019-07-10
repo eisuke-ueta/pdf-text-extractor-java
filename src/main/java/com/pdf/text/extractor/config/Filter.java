@@ -1,4 +1,4 @@
-package com.sample.app.config;
+package com.pdf.text.extractor.config;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,11 +6,11 @@ import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
-public class DetailItem {
-
+public class Filter {
+	
 	@NonNull
-	private String key;
+	private String regexp;
 	@NonNull
-	private Position position;
+	private String target;
 
 }
