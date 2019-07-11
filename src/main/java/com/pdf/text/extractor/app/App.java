@@ -43,6 +43,11 @@ public class App {
 		result.setDetailItems(detailItems);
 
 		// Output result
+		output(result);
+
+	}
+
+	private static void output(final ExtractResult result) {
 		for (Map.Entry<String, String> entry : result.getHeaderItems().entrySet()) {
 			System.out.println(entry.getKey() + ": " + entry.getValue());
 		}
@@ -52,10 +57,14 @@ public class App {
 			System.out.print(details.get("detail_name_1") + ", ");
 			System.out.print(details.get("detail_name_2") + ", ");
 			System.out.print(details.get("detail_spec_1") + ", ");
-			System.out.print(details.get("detail_spec_2"));
+			System.out.print(details.get("detail_spec_2") + ", ");
+			System.out.print(details.get("detail_quantity") + ", ");
+			System.out.print(details.get("detail_unit") + ", ");
+			System.out.print(details.get("detail_unit_amount") + ", ");
+			System.out.print(details.get("detail_amount") + ", ");
+			System.out.print(details.get("detail_memo"));
 			System.out.println("");
 		}
-
 	}
 
 	private static ExtractConfig getExtractConfigFromJSON() {

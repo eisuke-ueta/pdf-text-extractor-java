@@ -11,12 +11,15 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class DetailConfig {
 
-	private int startPage = 1;
-	private int endPage;
-	private boolean sortByPosition = true;
+	@NonNull
+	private Integer startPage = 0;
+	private Integer endPage;
+	@NonNull
+	private Boolean sortByPosition = Boolean.TRUE;
 
 	@NonNull
 	private DetailPageRule defaultPageRule;
+	@NonNull
 	private List<DetailPageRule> pageRules = new ArrayList<>();
 
 }

@@ -26,7 +26,7 @@ public class ExtractHeaderServiceImpl implements ExtractHeaderService {
 	public Map<String, String> execute(HeaderConfig config, File file) {
 
 		final String text = extractText(config, file);
-		if (config.isDebug()) {
+		if (config.getDebug()) {
 			System.out.println(text);
 		}
 		final Map<String, String> result = extractItems(config, text);
@@ -73,13 +73,13 @@ public class ExtractHeaderServiceImpl implements ExtractHeaderService {
 
 			// Adjust item
 			String matchedValue = matcher.group(FIRST_MATCH);
-			if (rule.isOnlyNumber()) {
+			if (rule.getOnlyNumber()) {
 				matchedValue = matchedValue.replaceAll("[^0-9]", "");
 			}
-			if (rule.isTrim()) {
+			if (rule.getTrim()) {
 				matchedValue = matchedValue.trim();
 			}
-			
+
 			result.put(rule.getKey(), matchedValue);
 		}
 
@@ -100,7 +100,7 @@ public class ExtractHeaderServiceImpl implements ExtractHeaderService {
 			final PDFTextStripper pdfStripper = new PDFTextStripper();
 
 			pdfStripper.setStartPage(config.getStartPage());
-			pdfStripper.setSortByPosition(config.isSortByPosition());
+			pdfStripper.setSortByPosition(config.getSortByPosition());
 
 			return pdfStripper.getText(pdDoc);
 		} catch (Exception e) {

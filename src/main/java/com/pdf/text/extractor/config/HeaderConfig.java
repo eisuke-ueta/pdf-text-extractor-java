@@ -9,11 +9,13 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 public class HeaderConfig {
-	
-	private int startPage = 1;
-	private boolean sortByPosition = true;
-	private boolean debug = false;
 
+	@NonNull
+	private Integer startPage = 0;
+	@NonNull
+	private Boolean sortByPosition = Boolean.TRUE;
+	@NonNull
+	private Boolean debug = Boolean.FALSE;
 	@NonNull
 	private List<HeaderRule> rules;
 }

@@ -10,9 +10,12 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class DetailPageRule {
 
-	private int page;
-	private int startLine;
-	private int endLine;
+	@NonNull
+	private Integer page;
+	@NonNull
+	private Integer startLine;
+	@NonNull
+	private Integer endLine;
 
 	@NonNull
 	private List<DetailRule> rules;

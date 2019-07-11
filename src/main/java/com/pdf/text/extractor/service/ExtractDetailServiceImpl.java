@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,15 +29,16 @@ public class ExtractDetailServiceImpl implements ExtractDetailService {
 		List<Map<String, String>> result = new ArrayList<>();
 
 		try {
-			final PDDocument doc = PDDocument.load(file);
+			final PDDocument document = PDDocument.load(file);
 			final PDFTextStripperByArea stripper = new PDFTextStripperByArea();
-			stripper.setSortByPosition(config.isSortByPosition());
+			stripper.setSortByPosition(config.getSortByPosition());
 
 			int page = config.getStartPage();
-			while (page <= config.getEndPage()) {
+			final int endPage = getEndPage(config, document);
+			while (page < endPage) {
 
 				// Get settings
-				final PDPage pdPage = doc.getPage(page);
+				final PDPage pdPage = document.getPage(page);
 				final DetailPageRule pageRule = getDetailPageRule(config, page);
 				final int START_LINE = pageRule.getStartLine();
 				final int END_LINE = pageRule.getEndLine();
@@ -85,6 +87,10 @@ public class ExtractDetailServiceImpl implements ExtractDetailService {
 			System.out.println(e);
 			return result;
 		}
+	}
+
+	private int getEndPage(DetailConfig config, final PDDocument document) {
+		return Objects.nonNull(config.getEndPage()) ? config.getEndPage() : document.getPages().getCount();
 	}
 
 	/**

@@ -8,8 +8,11 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class Position {
 
-	private int left;
-	private int width;
-	private int height;
+	@NonNull
+	private Integer left;
+	@NonNull
+	private Integer width;
+	@NonNull
+	private Integer height;
 
 }
