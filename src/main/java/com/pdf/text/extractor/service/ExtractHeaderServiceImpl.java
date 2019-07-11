@@ -1,6 +1,7 @@
 package com.pdf.text.extractor.service;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -23,7 +24,7 @@ public class ExtractHeaderServiceImpl implements ExtractHeaderService {
 	private static final int FIRST_MATCH = 1;
 
 	@Override
-	public Map<String, String> execute(HeaderConfig config, File file) {
+	public Map<String, String> execute(HeaderConfig config, InputStream file) {
 
 		final String text = extractText(config, file);
 		if (config.getDebug()) {
@@ -93,16 +94,16 @@ public class ExtractHeaderServiceImpl implements ExtractHeaderService {
 	 * @param file
 	 * @return
 	 */
-	private String extractText(HeaderConfig config, File file) {
+	private String extractText(HeaderConfig config, InputStream file) {
 
 		try {
-			final PDDocument pdDoc = PDDocument.load(file);
+			final PDDocument document = PDDocument.load(file);
 			final PDFTextStripper pdfStripper = new PDFTextStripper();
 
 			pdfStripper.setStartPage(config.getStartPage());
 			pdfStripper.setSortByPosition(config.getSortByPosition());
 
-			return pdfStripper.getText(pdDoc);
+			return pdfStripper.getText(document);
 		} catch (Exception e) {
 			System.out.println(e);
 			return StringUtils.EMPTY;
@@ -132,9 +133,6 @@ public class ExtractHeaderServiceImpl implements ExtractHeaderService {
 			if (Objects.isNull(rule.getFilter())) {
 				return line;
 			}
-//			if () {
-//				
-//			}
 			if (rule.getFilter().getTarget().equals(TargetLine.PREVIOUS.toString())) {
 				return iterator.hasPrevious() ? iterator.previous() : "";
 			}

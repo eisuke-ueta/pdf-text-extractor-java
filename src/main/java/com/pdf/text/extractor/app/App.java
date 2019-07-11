@@ -1,8 +1,14 @@
 package com.pdf.text.extractor.app;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.pdfbox.io.IOUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pdf.text.extractor.config.ExtractConfig;
@@ -23,28 +29,41 @@ public class App {
 
 	public static void main(String[] args) {
 
-		final File file = new File(FILE_PATH);
+		try {
+			final File file = new File(FILE_PATH);
+			final InputStream inputStream = new FileInputStream(file);
 
-		// Build configuration
-		ExtractConfig config = getExtractConfigFromJSON();
-//		config.getHeaderConfig().setDebug(true);
+			// Convert to bytes
+			final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			IOUtils.copy(inputStream, baos);
+			final byte[] bytes = baos.toByteArray();
 
-		// Extract header items
-		ExtractHeaderService extractHeaderService = new ExtractHeaderServiceImpl();
-		final Map<String, String> headerItems = extractHeaderService.execute(config.getHeaderConfig(), file);
+			// Build configuration
+			final ExtractConfig config = getExtractConfigFromJSON();
+//			config.getHeaderConfig().setDebug(true);
 
-		// Extract detail items
-		ExtractDetailService extractDetailService = new ExtractDetailServiceImpl();
-		final List<Map<String, String>> detailItems = extractDetailService.execute(config.getDetailConfig(), file);
+			// Extract header items
+			final ByteArrayInputStream headerInputStream = new ByteArrayInputStream(bytes);
+			ExtractHeaderService extractHeaderService = new ExtractHeaderServiceImpl();
+			final Map<String, String> headerItems = extractHeaderService.execute(config.getHeaderConfig(),
+					headerInputStream);
 
-		// Build result
-		final ExtractResult result = new ExtractResult();
-		result.setHeaderItems(headerItems);
-		result.setDetailItems(detailItems);
+			// Extract detail items
+			final ByteArrayInputStream detailInputStream = new ByteArrayInputStream(bytes);
+			ExtractDetailService extractDetailService = new ExtractDetailServiceImpl();
+			final List<Map<String, String>> detailItems = extractDetailService.execute(config.getDetailConfig(),
+					detailInputStream);
 
-		// Output result
-		output(result);
+			// Build result
+			final ExtractResult result = new ExtractResult();
+			result.setHeaderItems(headerItems);
+			result.setDetailItems(detailItems);
 
+			// Output result
+			output(result);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 	private static void output(final ExtractResult result) {

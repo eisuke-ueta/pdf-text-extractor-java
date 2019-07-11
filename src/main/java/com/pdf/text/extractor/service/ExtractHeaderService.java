@@ -1,7 +1,6 @@
 package com.pdf.text.extractor.service;
 
-import java.io.File;
-import java.util.List;
+import java.io.InputStream;
 import java.util.Map;
 
 import com.pdf.text.extractor.config.HeaderConfig;
@@ -15,6 +14,6 @@ public interface ExtractHeaderService {
 	 * @param file
 	 * @return
 	 */
-	public Map<String, String> execute(HeaderConfig config, File file);
+	public Map<String, String> execute(HeaderConfig config, InputStream file);
 
 }

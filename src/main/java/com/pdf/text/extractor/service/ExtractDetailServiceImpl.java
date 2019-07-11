@@ -2,6 +2,7 @@ package com.pdf.text.extractor.service;
 
 import java.awt.Rectangle;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,7 @@ import com.pdf.text.extractor.config.Position;
 public class ExtractDetailServiceImpl implements ExtractDetailService {
 
 	@Override
-	public List<Map<String, String>> execute(DetailConfig config, File file) {
+	public List<Map<String, String>> execute(DetailConfig config, InputStream file) {
 
 		List<Map<String, String>> result = new ArrayList<>();
 

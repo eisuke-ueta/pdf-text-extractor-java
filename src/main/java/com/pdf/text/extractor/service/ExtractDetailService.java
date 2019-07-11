@@ -1,12 +1,10 @@
 package com.pdf.text.extractor.service;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
 import com.pdf.text.extractor.config.DetailConfig;
-import com.pdf.text.extractor.config.ExtractConfig;
-import com.pdf.text.extractor.config.HeaderConfig;
 
 public interface ExtractDetailService {
 
@@ -17,6 +15,6 @@ public interface ExtractDetailService {
 	 * @param file
 	 * @return
 	 */
-	public List<Map<String, String>> execute(DetailConfig config, File file);
+	public List<Map<String, String>> execute(DetailConfig config, InputStream file);
 
 }
