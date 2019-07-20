@@ -30,6 +30,7 @@ public class App {
 	public static void main(String[] args) {
 
 		try {
+			// Load file
 			final File file = new File(FILE_PATH);
 			final InputStream inputStream = new FileInputStream(file);
 

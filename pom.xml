@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.sample</groupId>
-	<artifactId>App</artifactId>
+	<groupId>com.pdf.text.extractor</groupId>
+	<artifactId>pdf-text-extractor</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>App</name>
+	<name>pdf-text-extractor</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -40,7 +40,8 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.9.9</version>
+			<version>[2.9.9.1,)</version>
 		</dependency>
 	</dependencies>
+
 </project>
