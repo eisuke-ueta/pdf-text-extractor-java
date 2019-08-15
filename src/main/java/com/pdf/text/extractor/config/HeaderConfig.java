@@ -15,7 +15,5 @@ public class HeaderConfig {
 	@NonNull
 	private Boolean sortByPosition = Boolean.TRUE;
 	@NonNull
-	private Boolean debug = Boolean.FALSE;
-	@NonNull
 	private List<HeaderRule> rules;
 }

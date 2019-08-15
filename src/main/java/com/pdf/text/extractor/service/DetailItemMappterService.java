@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.pdf.text.extractor.config.DetailConfig;
 
-public interface ExtractDetailService {
+public interface DetailItemMappterService {
 
 	/**
 	 * Extract text from file
@@ -15,6 +15,6 @@ public interface ExtractDetailService {
 	 * @param file
 	 * @return
 	 */
-	public List<Map<String, String>> execute(DetailConfig config, InputStream file);
+	public List<Map<String, String>> execute(final DetailConfig config, final InputStream file);
 
 }

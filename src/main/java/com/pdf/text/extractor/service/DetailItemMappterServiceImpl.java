@@ -19,18 +19,18 @@ import org.apache.pdfbox.text.PDFTextStripperByArea;
 import com.pdf.text.extractor.config.DetailConfig;
 import com.pdf.text.extractor.config.DetailPageRule;
 import com.pdf.text.extractor.config.DetailRule;
-import com.pdf.text.extractor.config.ExtractConfig;
+import com.pdf.text.extractor.config.ItemMapperConfig;
 import com.pdf.text.extractor.config.Position;
 
-public class ExtractDetailServiceImpl implements ExtractDetailService {
+public class DetailItemMappterServiceImpl implements DetailItemMappterService {
 
 	@Override
-	public List<Map<String, String>> execute(DetailConfig config, InputStream file) {
+	public List<Map<String, String>> execute(final DetailConfig config, final InputStream inputStream) {
 
-		List<Map<String, String>> result = new ArrayList<>();
+		final List<Map<String, String>> result = new ArrayList<>();
 
 		try {
-			final PDDocument document = PDDocument.load(file);
+			final PDDocument document = PDDocument.load(inputStream);
 			final PDFTextStripperByArea stripper = new PDFTextStripperByArea();
 			stripper.setSortByPosition(config.getSortByPosition());
 

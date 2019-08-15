@@ -6,14 +6,13 @@ import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
-public class Position {
+public class ItemMapperConfig {
 
 	@NonNull
-	private Integer left;
-	private Integer top; // No need to specify for detail items
+	private HeaderConfig headerConfig;
 	@NonNull
-	private Integer width;
+	private DetailConfig detailConfig;
 	@NonNull
-	private Integer height;
+	private Boolean debug = Boolean.FALSE;
 
 }

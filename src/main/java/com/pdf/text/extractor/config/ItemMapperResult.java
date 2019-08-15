@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ExtractResult {
+public class ItemMapperResult {
 
 	private Map<String, String> headerItems;
 	private List<Map<String, String>> detailItems;

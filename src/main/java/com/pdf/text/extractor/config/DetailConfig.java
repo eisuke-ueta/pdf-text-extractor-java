@@ -20,6 +20,6 @@ public class DetailConfig {
 	@NonNull
 	private DetailPageRule defaultPageRule;
 	@NonNull
-	private List<DetailPageRule> pageRules = new ArrayList<>();
+	private List<DetailPageRule> pageRules = new ArrayList<DetailPageRule>();
 
 }

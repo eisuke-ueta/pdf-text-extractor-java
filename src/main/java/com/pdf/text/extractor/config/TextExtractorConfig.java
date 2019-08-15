@@ -6,11 +6,11 @@ import lombok.NonNull;
 
 @Data
 @NoArgsConstructor
-public class ExtractConfig {
+public class TextExtractorConfig {
 
 	@NonNull
-	private HeaderConfig headerConfig;
+	private Integer startPage = 0;
 	@NonNull
-	private DetailConfig detailConfig;
+	private Boolean sortByPosition = Boolean.TRUE;
 
 }
