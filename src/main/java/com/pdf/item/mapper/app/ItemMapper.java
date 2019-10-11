@@ -11,10 +11,10 @@ public interface ItemMapper {
 	/**
 	 * Extract text information and convert to structured data.
 	 * 
-	 * @param spec
+	 * @param config
 	 * @param file
 	 * @return
 	 */
-	public ItemMapperResult execute(final ItemMapperConfig spec, final InputStream file) throws IOException;
+	public ItemMapperResult execute(final ItemMapperConfig config, final InputStream file) throws IOException;
 
 }

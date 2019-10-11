@@ -1,7 +1,6 @@
 package com.pdf.item.mapper.service;
 
 import java.awt.Rectangle;
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,13 +12,11 @@ import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 
 import com.pdf.item.mapper.config.DetailPageRule;
 import com.pdf.item.mapper.config.DetailRule;
 import com.pdf.item.mapper.config.DetailSpec;
-import com.pdf.item.mapper.config.ItemMapperConfig;
 import com.pdf.item.mapper.config.Position;
 
 public class DetailItemMapperServiceImpl implements DetailItemMapperService {
@@ -36,13 +33,24 @@ public class DetailItemMapperServiceImpl implements DetailItemMapperService {
 
 			int page = config.getStartPage();
 			final int endPage = getEndPage(config, document);
-			while (page < endPage) {
+			while (page <= endPage) {
 
 				// Get settings
-				final PDPage pdPage = document.getPage(page);
 				final DetailPageRule pageRule = getDetailPageRule(config, page);
+
+				// Go to next page if page rule does not exist
+				if (Objects.isNull(pageRule)) {
+					page++;
+					continue;
+				}
+
+				// Adjust page number. Page starts from zero in PDFBox.
+				final PDPage pdPage = document.getPage(page - 1);
+
 				final int START_LINE = pageRule.getStartLine();
 				final int END_LINE = pageRule.getEndLine();
+				final int ROW_HEIGHT = pageRule.getRowHeight();
+				final int ITEM_SIZE = (END_LINE - START_LINE) / ROW_HEIGHT;
 
 				// Get items on tables
 				final Map<String, List<String>> tableItems = new HashMap<String, List<String>>();
@@ -54,11 +62,12 @@ public class DetailItemMapperServiceImpl implements DetailItemMapperService {
 					final int LEFT = position.getLeft();
 					final int WIDTH = position.getWidth();
 					final int HEIGHT = position.getHeight();
-					final int ITEM_SIZE = (END_LINE - START_LINE) / HEIGHT;
+					final int TOP = position.getTop();
+					final int EXTRA_TOP = TOP - START_LINE;
 
 					// Extract regions
 					for (int i = 0; i < ITEM_SIZE; i++) {
-						Rectangle rect = new Rectangle(LEFT, START_LINE + HEIGHT * i, WIDTH, HEIGHT);
+						Rectangle rect = new Rectangle(LEFT, START_LINE + (ROW_HEIGHT * i) + EXTRA_TOP, WIDTH, HEIGHT);
 						stripper.addRegion(KEY + i, rect);
 					}
 					stripper.extractRegions(pdPage);
@@ -69,6 +78,7 @@ public class DetailItemMapperServiceImpl implements DetailItemMapperService {
 						String item = stripper.getTextForRegion(KEY + i);
 						item = item.replace("\n", "");
 						item = item.replace("\r", "");
+						item = item.replace("　", "");
 						item = item.trim();
 						items.add(item);
 					}

@@ -17,8 +17,7 @@ public class DetailSpec {
 	@NonNull
 	private Boolean sortByPosition = Boolean.TRUE;
 
-	@NonNull
-	private DetailPageRule defaultPageRule;
+	private DetailPageRule defaultPageRule = null;
 	@NonNull
 	private List<DetailPageRule> pageRules = new ArrayList<DetailPageRule>();
 

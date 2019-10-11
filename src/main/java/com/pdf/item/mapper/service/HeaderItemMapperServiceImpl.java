@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -20,7 +20,6 @@ import com.pdf.item.mapper.config.ExtractorType;
 import com.pdf.item.mapper.config.HeaderRule;
 import com.pdf.item.mapper.config.HeaderSpec;
 import com.pdf.item.mapper.config.Position;
-import com.pdf.item.mapper.config.TargetLine;
 import com.pdf.item.mapper.config.TextExtractorSpec;
 
 public class HeaderItemMapperServiceImpl implements HeaderItemMapperService {
@@ -28,13 +27,13 @@ public class HeaderItemMapperServiceImpl implements HeaderItemMapperService {
 	private static final int FIRST_MATCH = 1;
 
 	@Override
-	public Map<String, String> execute(final HeaderSpec config, final ExtractorType type, final InputStream file) {
+	public Map<String, String> execute(final HeaderSpec spec, final ExtractorType type, final InputStream file) {
 
 		switch (type) {
 		case KEYWORD:
-			return executeByKeyword(config, file);
+			return executeByKeyword(spec, file);
 		case POSITION:
-			return executeByPosition(config, file);
+			return executeByPosition(spec, file);
 		default:
 			return new HashMap<String, String>();
 		}
@@ -188,8 +187,9 @@ public class HeaderItemMapperServiceImpl implements HeaderItemMapperService {
 	 */
 	private String extractLine(String text, HeaderRule rule) {
 
-		final Pattern pattern = getLineExtractPattern(rule);
-		final ListIterator<String> iterator = text.lines().collect(Collectors.toList()).listIterator();
+		final Pattern pattern = Pattern.compile(rule.getRegexp());
+
+		final ListIterator<String> iterator = splitToLines(text).collect(Collectors.toList()).listIterator();
 
 		while (iterator.hasNext()) {
 			String line = iterator.next();
@@ -199,26 +199,14 @@ public class HeaderItemMapperServiceImpl implements HeaderItemMapperService {
 			if (!matcher.find())
 				continue;
 
-			if (Objects.isNull(rule.getFilter())) {
-				return line;
-			}
-			if (rule.getFilter().getTarget().equals(TargetLine.PREVIOUS.toString())) {
-				return iterator.hasPrevious() ? iterator.previous() : "";
-			}
-			if (rule.getFilter().getTarget().equals(TargetLine.NEXT.toString())) {
-				return iterator.hasNext() ? iterator.next() : "";
-			}
 			return line;
 		}
 
 		return "";
 	}
 
-	private Pattern getLineExtractPattern(HeaderRule rule) {
-		if (Objects.nonNull(rule.getFilter())) {
-			return Pattern.compile(rule.getFilter().getRegexp());
-		}
-		return Pattern.compile(rule.getRegexp());
+	private Stream<String> splitToLines(String text) {
+		return Stream.of(text.split("\\r?\\n"));
 	}
 
 }

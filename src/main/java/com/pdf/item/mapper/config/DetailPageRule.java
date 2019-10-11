@@ -16,6 +16,8 @@ public class DetailPageRule {
 	private Integer startLine;
 	@NonNull
 	private Integer endLine;
+	@NonNull
+	private Integer rowHeight;
 
 	@NonNull
 	private List<DetailRule> rules;

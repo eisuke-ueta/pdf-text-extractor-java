@@ -15,7 +15,6 @@ public class HeaderRule {
 
 	// For KEYWORD mapping
 	private String regexp;
-	private Filter filter;
 
 	// For POSITION mapping
 	private Integer page;

@@ -26,12 +26,14 @@ import com.pdf.item.mapper.service.TextExtractorServiceImpl;
 
 public class App {
 
-	final static String FILE_PATH = System.getenv("FILE_PATH");
-	final static String JSON_PATH = System.getenv("JSON_PATH");
-
 	public static void main(String[] args) {
 
 		try {
+
+			final String FILE_PATH = args[0];
+			final String JSON_PATH = args[1];
+			final Boolean isDebug = args.length == 3 ? Boolean.parseBoolean(args[2]) : Boolean.FALSE;
+
 			// Load file
 			final File file = new File(FILE_PATH);
 			final InputStream inputStream = new FileInputStream(file);
@@ -42,9 +44,9 @@ public class App {
 			final byte[] bytes = baos.toByteArray();
 
 			// Build configuration
-			final ItemMapperConfig config = getItemMapperConfigFromJSON();
+			final ItemMapperConfig config = getItemMapperConfigFromJSON(JSON_PATH);
 
-			if (config.getDebug()) {
+			if (isDebug) {
 				outputText(bytes);
 			}
 
@@ -74,6 +76,7 @@ public class App {
 
 			// Output result
 			output(result);
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -88,26 +91,23 @@ public class App {
 	}
 
 	private static void output(final ItemMapperResult result) {
+		System.out.println("===== OUTPUT HEADER ITEMS ======");
 		for (Map.Entry<String, String> entry : result.getHeaderItems().entrySet()) {
 			System.out.println(entry.getKey() + ": " + entry.getValue());
 		}
+		System.out.println("");
 
+		System.out.println("===== OUTPUT DETAIL ITEMS ======");
 		for (Map<String, String> details : result.getDetailItems()) {
-			System.out.print(details.get("detail_no") + ", ");
-			System.out.print(details.get("detail_name_1") + ", ");
-			System.out.print(details.get("detail_name_2") + ", ");
-			System.out.print(details.get("detail_spec_1") + ", ");
-			System.out.print(details.get("detail_spec_2") + ", ");
-			System.out.print(details.get("detail_quantity") + ", ");
-			System.out.print(details.get("detail_unit") + ", ");
-			System.out.print(details.get("detail_unit_amount") + ", ");
-			System.out.print(details.get("detail_amount") + ", ");
-			System.out.print(details.get("detail_memo"));
+			for (Map.Entry<String, String> entry : details.entrySet()) {
+				System.out.print(entry.getKey() + ": " + entry.getValue() + ", ");
+			}
 			System.out.println("");
 		}
+		System.out.println("");
 	}
 
-	private static ItemMapperConfig getItemMapperConfigFromJSON() {
+	private static ItemMapperConfig getItemMapperConfigFromJSON(final String JSON_PATH) {
 		ObjectMapper mapper = new ObjectMapper();
 		ItemMapperConfig config = null;
 		try {
